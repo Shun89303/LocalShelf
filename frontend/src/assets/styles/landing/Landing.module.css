@@ -1,0 +1,26 @@
+.landingCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    height: 100vh;
+}
+
+.heading {
+    font-size: 3rem;
+}
+
+.option {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.btnCont {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

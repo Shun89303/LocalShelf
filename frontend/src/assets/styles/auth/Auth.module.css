@@ -1,0 +1,19 @@
+.authCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 100vh;
+}
+
+.inputCont {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btnCont {
+    display: flex;
+    gap: 10px;
+}

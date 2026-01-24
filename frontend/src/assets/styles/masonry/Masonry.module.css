@@ -1,0 +1,15 @@
+.masonryGrid {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+}
+
+.masonryColumn {
+  background-clip: padding-box;
+}
+
+.masonryColumn > * {
+  margin-bottom: 2rem;
+  border: 2px solid #353839;
+}

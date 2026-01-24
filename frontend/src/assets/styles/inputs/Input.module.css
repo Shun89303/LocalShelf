@@ -1,0 +1,27 @@
+.inputCustom {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid #353839;
+    background-color: white;
+}
+
+.inputCustom:focus {
+    outline-color: #E7D5C5;
+    outline-offset: -2px;
+}
+
+:global(.PhoneInputCountry) {
+    display: none !important;
+}
+
+:global(.PhoneInputInput) {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid #353839;
+    background-color: white;
+}
+
+:global(.PhoneInputInput:focus) {
+    outline-color: #E7D5C5;
+    outline-offset: -2px;
+}
