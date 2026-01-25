@@ -1,0 +1,102 @@
+import { userModel } from "../models/index.js";
+import { validateUsername, validateMyanmarPhone, validatePassword } from '../utils/validators.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
+
+export async function register(req, res, next) {
+    const { username, phone, password } = req.body;
+    const isUsername = validateUsername(username);
+    const isPhone = validateMyanmarPhone(phone);
+    const isPassword = validatePassword(password);
+
+    if (!isUsername) {
+        return res.status(400).json({ error: "Invalid username" });
+    }
+
+    if (!isPhone) {
+        return res.status(400).json({ error: "Invalid phone number"});
+    }
+
+    if (!isPassword) {
+        return res.status(400).json({ error: "Invalid password"});
+    }
+
+    const user = await userModel.findUser({phone});
+    if (user) {
+        return res.status(409).json({ error: "User already exist"})
+    }
+
+    const hashedPass = await bcrypt.hash(password, 10);
+
+    try {
+        const result = await userModel.createUser({
+            username, 
+            phone,
+            password: hashedPass
+        })
+        const token = jwt.sign(
+            { userId: result.insertedId },
+            process.env.JWT_SECRET,
+            { expiresIn: "24h" }
+        )
+        return res.status(201).json({ message: "Successful Register", token })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export async function login(req, res, next) {
+    const { username, phone, password } = req.body;
+    const isUsername = validateUsername(username);
+    const isPhone = validateMyanmarPhone(phone);
+    const isPassword = validatePassword(password);
+
+    if (!isUsername) {
+        return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    if (!isPhone) {
+        return res.status(400).json({ error: "Invalid credentials"});
+    }
+
+    if (!isPassword) {
+        return res.status(400).json({ error: "Invalid credentials"});
+    }
+
+    try {
+        const user = await userModel.findUser({ phone });
+        if (!user) {
+            return res.status(400).json({ error: "User does not exist"});
+        }
+    
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: "Invalid credentials" });
+        }
+    
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "24h" }
+        )
+    
+        return res.status(200).json({ message: "Successful Login", token });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getInfo(req, res, next) {
+    const userId = req.body;
+    try {
+        const data = await userModel.getUserInfo({ userId });
+        if (!data) {
+            return res.status(400).json({ error: "User not found" });
+        }
+        return res.status(200).json({ message: "User found", username: data.username, phone: data.phone });
+    } catch (error) {
+        next(error);
+    }
+}

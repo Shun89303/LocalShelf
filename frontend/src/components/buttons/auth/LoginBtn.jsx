@@ -3,16 +3,17 @@ import useAuth from "../../../contexts/auth/useAuth";
 import styles from '../../../assets/styles/button/Button.module.css';
 
 function LoginBtn() {
-    const { setRole } = useAuth();
+    const { handleLogin } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        setRole('user');
+    const handleLoginRoute = async () => {
+        const ok = await handleLogin();
+        if (!ok) return;
         navigate('/home');
     }
 
     return (
-        <button onClick={handleLogin} className={styles.btn}>
+        <button onClick={handleLoginRoute} className={styles.btn}>
             Login
         </button>
     )

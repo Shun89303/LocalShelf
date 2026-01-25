@@ -1,14 +1,16 @@
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import useAuth from "../../contexts/auth/useAuth";
 
-const MyanmarPhoneInput = ({ inputValue, inputChange }) => {
+const MyanmarPhoneInput = () => {
+  const { phone, setPhone } = useAuth();
   return <PhoneInput
       defaultCountry="MM"
       international={false}
       countryCallingCodeEditable={false}
       withCountryCallingCode
-      value={inputValue}
-      onChange={inputChange}
+      value={phone}
+      onChange={(value) => setPhone(value)}
       placeholder="9xxxxxxxx"
     />
 }

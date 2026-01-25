@@ -1,17 +1,16 @@
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import useAuth from "../contexts/auth/useAuth";
 
 function ProfileProtector({ children }) {
-    const { role } = useAuth();
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        if ( role !== 'user') {
+        if (!token) {
             window.alert("Guests do not have the privilege to visit this page");
         }
-    }, [role])
+    }, [token])
 
-    if ( role !== 'user') {
+    if (!token) {
         return <Navigate to='/' replace/>
     }
 
