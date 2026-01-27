@@ -6,6 +6,7 @@ function HomeBtn() {
 
     const handleHome = () => {
         navigate('/home');
+        window.scrollTo({ top: 0, behavior: 'smooth'});
     }
 
     return (

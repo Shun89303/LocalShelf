@@ -100,3 +100,53 @@ export async function getInfo(req, res, next) {
         next(error);
     }
 }
+
+export async function upload(req, res, next) {
+    const { name, price } = req.body;
+
+    if (!name) return res.status(400).json({ error: "Product name is required"});
+
+    const imagePaths = req.files ? req.files.map((file) => `uploads/products/${file.filename}`) : [];
+
+    try {
+        const product = {
+            owner: req.user.id,
+            name,
+            price: price || null,
+            images: imagePaths
+        }
+
+        const result = await userModel.uploadImage(product);
+
+        res.status(201).json({ product: {
+            _id: result.insertedId,
+            ...product
+        }, message: "Upload image succeeded"});
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getProfileImages(req, res, next) {
+    try {
+        const images = await userModel.getUserImages({ owner: req.user.id });
+        if (!images || images.length === 0) {
+            return res.status(404).json({ error: "No Images Found"});
+        }
+        return res.status(200).json({ images, message: "Found User's product images"});
+    } catch (error) {
+        next(error)
+    }
+}
+
+export async function getAllImages(req, res, next) {
+    try {
+        const images = await userModel.getImages();
+        if (!images || images.length === 0) {
+            return res.status(500).json({ error: "No images found" });
+        }
+        return res.status(200).json({ images, message: "Successful image fetch" });
+    } catch (error) {
+        next(error)
+    }
+}

@@ -3,11 +3,17 @@ import { useState } from "react";
 
 function ProfileProvider({ children }) {
     const [ images, setImages ] = useState([]);
+    const [ uploads, setUploads ] = useState([]);
     const [ open, setOpen ] = useState(false);
     const [ name, setName ] = useState('');
     const [ price, setPrice ] = useState('');
+    const [ error, setError ] = useState(null);
 
     const toggleUploadForm = () => {
+        setName(''); 
+        setPrice('') 
+        setError(null) 
+        setImages([]);
         setOpen(!open);
     }
     
@@ -17,6 +23,8 @@ function ProfileProvider({ children }) {
         toggleUploadForm,
         name, setName,
         price, setPrice, 
+        error, setError,
+        uploads, setUploads,
     }
 
     return (

@@ -10,6 +10,7 @@ function ProfileBtn() {
             throw new Error("No token found");
         }
         navigate('/profile');
+        window.scrollTo({ top: 0, behavior: 'smooth'});
     }
 
     return (

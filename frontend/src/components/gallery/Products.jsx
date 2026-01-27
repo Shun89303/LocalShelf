@@ -1,8 +1,26 @@
 import Masonry from 'react-masonry-css';
 import styles from '../../assets/styles/masonry/Masonry.module.css';
 import imageStyle from '../../assets/styles/image/Image.module.css';
+import { useEffect } from 'react';
+import { fetchAllImages } from '../../api/HomeApi.js';
+import useHome from '../../contexts/home/useHome.js';
 
 function Products() {
+    const { setError, gallery, setGallery } = useHome();
+
+    useEffect(() => {
+        async function getImages() {
+            const data = await fetchAllImages();
+
+            if (!data) {
+                setError("No images found");
+                return;
+            }
+            setGallery(data);
+        }
+        getImages();
+    }, [setError, setGallery])
+
     const breakpoints = {
         default: 4,
         1100: 3,
@@ -10,18 +28,14 @@ function Products() {
         500: 1
     }
 
-    const images = Object.values(
-        import.meta.glob('../../assets/images/*.jpg', { eager: true, import: 'default'})
-    )
-
     return (
         <Masonry
             breakpointCols={breakpoints}
             className={styles.masonryGrid}
             columnClassName={styles.masonryColumn}
         >
-            { images.map((src, i) => (
-                <img key={i} src={src} alt="image-preview" className={imageStyle.image}/>
+            { gallery && gallery.map((src, i) => (
+                <img key={i} src={`/${src.images}`} alt="image-preview" className={imageStyle.image}/>
             ))}
         </Masonry>
     )

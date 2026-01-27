@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { fetchInfo } from '../api/AuthApi.js';
 import profileStyles from '../assets/styles/profile/Profile.module.css';
-import image1 from '../assets/images/item1.jpg';
-import image2 from '../assets/images/item10.jpg';
 import ScrollTopBtn from '../components/buttons/home/ScrollTopBtn.jsx';
 import UploadBtn from '../components/buttons/profile/UploadBtn.jsx';
+import ProfileUploads from '../components/gallery/ProfileUploads.jsx';
 
 function Profile() {
 
@@ -35,10 +34,7 @@ function Profile() {
             </div>
             <div className={profileStyles.galleryCont}>
                 <h2 className={profileStyles.header}>Uploaded Products</h2>
-                <div>
-                    <img src={image1} alt="uploade_image" style={{width: "200px", border: "2px solid black", borderRadius: "20px", marginRight: "10px"}}/>
-                    <img src={image2} alt="uploade_image" style={{width: "200px", border: "2px solid black", borderRadius: "20px"}} />
-                </div>
+                <ProfileUploads />
             </div>
             <ScrollTopBtn />
         </div>
