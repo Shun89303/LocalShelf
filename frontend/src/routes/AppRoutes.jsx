@@ -8,6 +8,7 @@ import Profile from '../pages/Profile';
 import ProfileLayout from '../layouts/profile/ProfileLayout';
 
 function AppRoutes() {
+
     return (
         <Routes>
             <Route path='/' element={<Landing />}/>

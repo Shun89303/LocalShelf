@@ -23,7 +23,7 @@ export function HandleUpload() {
         if (price) {
             formData.append('price', price);
         }
-        
+
         try {
             const res = await fetch('/api/products', {
                 method: "POST",

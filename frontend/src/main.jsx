@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')).render(
         <ProfileProvider>
           <HomeProvider>
             <App />
-          </HomeProvider>          
+          </HomeProvider> 
         </ProfileProvider>
       </AuthProvider>
     </BrowserRouter>

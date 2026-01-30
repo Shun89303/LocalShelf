@@ -7,6 +7,9 @@ function ProfileProvider({ children }) {
     const [ open, setOpen ] = useState(false);
     const [ name, setName ] = useState('');
     const [ price, setPrice ] = useState('');
+    const [ phone, setPhone ] = useState('');
+    const [ displayUser, setDisplayUser ] = useState('');
+    const [ displayPhone, setDisplayPhone ] = useState('');
     const [ error, setError ] = useState(null);
 
     const toggleUploadForm = () => {
@@ -25,6 +28,9 @@ function ProfileProvider({ children }) {
         price, setPrice, 
         error, setError,
         uploads, setUploads,
+        phone, setPhone,
+        displayUser, setDisplayUser,
+        displayPhone, setDisplayPhone,
     }
 
     return (

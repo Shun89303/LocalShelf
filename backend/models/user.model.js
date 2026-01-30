@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 let db;
 
 export function setDB(database) {
@@ -22,12 +23,12 @@ export async function findUser({phone}) {
     return await getDB().collection('users').findOne({phone});
 }
 
-export async function getUserInfo({ userId }) {
-    return await getDB().collection('users').findOne({ userId });
+export async function getUserInfo(userId) {
+    return await getDB().collection('users').findOne({ _id: new ObjectId(userId) });
 }
 
-export async function uploadImage({ owner, name, price, images }) {
-    return await getDB().collection('images').insertOne({ owner, name, price, images });
+export async function uploadImage({ owner, name, price, phone, images }) {
+    return await getDB().collection('images').insertOne({ owner, name, price, phone, images });
 }
 
 export async function getUserImages({owner}) {

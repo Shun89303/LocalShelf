@@ -37,7 +37,7 @@ export async function register(req, res, next) {
             password: hashedPass
         })
         const token = jwt.sign(
-            { userId: result.insertedId },
+            { userId: result.insertedId.toString() },
             process.env.JWT_SECRET,
             { expiresIn: "24h" }
         )
@@ -77,7 +77,7 @@ export async function login(req, res, next) {
         }
     
         const token = jwt.sign(
-            { userId: user._id },
+            { userId: user._id.toString() },
             process.env.JWT_SECRET,
             { expiresIn: "24h" }
         )
@@ -89,9 +89,9 @@ export async function login(req, res, next) {
 }
 
 export async function getInfo(req, res, next) {
-    const userId = req.body;
+    const userId = req.user.id;
     try {
-        const data = await userModel.getUserInfo({ userId });
+        const data = await userModel.getUserInfo(userId);
         if (!data) {
             return res.status(400).json({ error: "User not found" });
         }
@@ -104,6 +104,8 @@ export async function getInfo(req, res, next) {
 export async function upload(req, res, next) {
     const { name, price } = req.body;
 
+    const userInfo = await userModel.getUserInfo(req.user.id);
+
     if (!name) return res.status(400).json({ error: "Product name is required"});
 
     const imagePaths = req.files ? req.files.map((file) => `uploads/products/${file.filename}`) : [];
@@ -113,6 +115,7 @@ export async function upload(req, res, next) {
             owner: req.user.id,
             name,
             price: price || null,
+            phone: userInfo.phone,
             images: imagePaths
         }
 

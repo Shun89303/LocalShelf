@@ -11,8 +11,8 @@ export const fetchRegister = async (cleanUser, cleanPhone, cleanPass, setJWT) =>
         })
     })
     if (!res.ok) {
-        const err = await res.json(); 
-        throw new Error(err.error);
+        const data = await res.json(); 
+        throw new Error(data.error);
     }
 
     const data = await res.json();
@@ -49,13 +49,15 @@ export const fetchInfo = async () => {
     const token = localStorage.getItem('token');
     const res = await fetch('/api/users/me', {
         method: "GET",
-        body: token.userId
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     })
     if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error);
+        console.log(err);
+        throw new Error(err);
     }
 
-    const data = await res.json();
-    return data;
+    return await res.json();
 }

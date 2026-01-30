@@ -3,6 +3,7 @@ import useProfile from "../../contexts/profile/useProfile.js";
 import Masonry from "react-masonry-css";
 import styles from '../../assets/styles/masonry/Masonry.module.css';
 import imageStyle from '../../assets/styles/image/Image.module.css';
+import formatMyanmarLocal from '../../utils/formatMyanmarLocal.js';
 
 function ProfileUploads() {
     const { uploads, setUploads } = useProfile();
@@ -18,7 +19,7 @@ function ProfileUploads() {
 
             if (!res.ok) {
                 const err = await res.json();
-                window.alert(err.error);
+                console.error(err.error);
                 return;
             }
 
@@ -27,7 +28,7 @@ function ProfileUploads() {
         }
         fetchImages();
         
-    }, [setUploads])
+    }, [uploads, setUploads])
 
     const breakpoints = {
         default: 4,
@@ -43,7 +44,16 @@ function ProfileUploads() {
             columnClassName={styles.masonryColumn}
         >
             { uploads && uploads.map((image, index) => (
-                <img key={index} src={`/${image.images}`} alt="image-preview" className={imageStyle.image}/>
+                <div key={index} className={imageStyle.card}>
+                    <img src={`/${image.images}`} alt="image-preview" className={imageStyle.image}/>
+                    <div className={imageStyle.overlay}>
+                        <div className={imageStyle.descCont}>
+                            <h3 className={imageStyle.name}>Name: {image.name}</h3>
+                            <p className={imageStyle.price}>Price: ${image.price}</p>
+                            <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(image.phone) }</p>
+                        </div>
+                    </div>
+                </div>
             ))}
         </Masonry>
     )
