@@ -6,15 +6,8 @@ function UploadImageBtn() {
     const { setImages } = useProfile();
     const fileRef = useRef(null);
 
-    const handleInput = (e) => {
-        const files = Array.from(e.target.files);
-
-        setImages(prev => {
-            if (prev.length >= 5) return prev;
-
-            const remaining = 5 - prev.length;
-            return [ ...prev, ...files.slice(0, remaining)];
-        });
+    const HandleUpload = (e) => {
+        setImages([e.target.files[0]]);
 
         e.target.value = "";
     }
@@ -24,9 +17,8 @@ function UploadImageBtn() {
             <input 
                 type="file" 
                 accept="image/*"
-                multiple
                 ref={fileRef}
-                onChange={handleInput}
+                onChange={HandleUpload}
                 hidden 
             />
             <button className={styles.btn} onClick={() => fileRef.current.click()}>

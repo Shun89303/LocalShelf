@@ -6,6 +6,7 @@
 }
 
 .masonryColumn {
+  flex: 1;
   background-clip: padding-box;
 }
 

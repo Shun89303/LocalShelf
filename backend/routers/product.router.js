@@ -7,7 +7,7 @@ import { getAllImages } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
-router.post( '/', authMiddleware, multerUpload.array('images', 5), upload);
+router.post( '/', authMiddleware, multerUpload.array('image', 1), upload);
 
 router.get('/me', authMiddleware, getProfileImages);
 

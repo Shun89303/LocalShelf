@@ -14,10 +14,8 @@ export function HandleUpload() {
         
         formData.append('name', name);
 
-        if (images.length > 0) {
-            images.forEach(file => {
-                formData.append('images', file);
-            });
+        if (images) {
+            formData.append('image', images[0]);
         }
 
         if (price) {
@@ -41,7 +39,7 @@ export function HandleUpload() {
             const data = await res.json();
             setUploads(prev => [
                 ...prev,
-                ...data.product.images.map(img => ({ images: img }))
+                data.product
             ]);
             setName('');
             setPrice('');

@@ -33,8 +33,6 @@ function ProfileUploads() {
     const breakpoints = {
         default: 4,
         1100: 3,
-        700: 2,
-        500: 1
     }
 
     return (
@@ -43,16 +41,32 @@ function ProfileUploads() {
             className={styles.masonryGrid}
             columnClassName={styles.masonryColumn}
         >
-            { uploads && uploads.map((image, index) => (
-                <div key={index} className={imageStyle.card}>
-                    <img src={`/${image.images}`} alt="image-preview" className={imageStyle.image}/>
-                    <div className={imageStyle.overlay}>
-                        <div className={imageStyle.descCont}>
-                            <h3 className={imageStyle.name}>Name: {image.name}</h3>
-                            <p className={imageStyle.price}>Price: ${image.price}</p>
-                            <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(image.phone) }</p>
-                        </div>
-                    </div>
+            { uploads && uploads.map((product) => (
+                <div key={product._id} className={imageStyle.card}>
+                    { product.images.length > 0 ? (
+                        product.images.map((img, index) => (
+                        <>
+                            <img key={index} src={`/${img}`} alt="loading image/no image uploaded" className={imageStyle.image}/>
+                            <button className={imageStyle.btn}>x</button>
+                            <div className={imageStyle.overlay}>
+                                <div className={imageStyle.descCont}>
+                                    <h3 className={imageStyle.name}>Name: {product.name}</h3>
+                                    <p className={imageStyle.price}>Price: ${product.price}</p>
+                                    <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(product.phone) }</p>
+                                </div>
+                            </div>
+                        </>
+                        )   
+                    ) ) : (
+                        <>
+                            <button className={imageStyle.btn}>x</button>
+                            <div className={imageStyle.plainCont}>
+                                <h3 className={imageStyle.name}>Name: {product.name}</h3>
+                                <p className={imageStyle.price}>Price: ${product.price}</p>
+                                <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(product.phone) }</p>
+                            </div>
+                        </>
+                    )}
                 </div>
             ))}
         </Masonry>

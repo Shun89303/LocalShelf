@@ -1,5 +1,7 @@
 import ProfileContext from "./ProfileContext.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchInfo } from "../../api/AuthApi.js";
+import useAuth from '../../contexts/auth/useAuth.js';
 
 function ProfileProvider({ children }) {
     const [ images, setImages ] = useState([]);
@@ -11,6 +13,20 @@ function ProfileProvider({ children }) {
     const [ displayUser, setDisplayUser ] = useState('');
     const [ displayPhone, setDisplayPhone ] = useState('');
     const [ error, setError ] = useState(null);
+    const { jwt } = useAuth();
+
+    useEffect(() => {
+        const loadUser = async () => {
+            const data = await fetchInfo();
+            if (!data) {
+                console.error('No token found, cannot fetch user info');
+                throw new Error();
+            }
+            setDisplayUser(data.username);
+            setDisplayPhone(data.phone);
+        }
+        loadUser();
+    }, [jwt])
 
     const toggleUploadForm = () => {
         setName(''); 

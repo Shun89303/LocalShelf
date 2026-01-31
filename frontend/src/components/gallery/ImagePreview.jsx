@@ -12,15 +12,17 @@ function ImagePreview() {
 
     return (
         <div className={styles.imgCont}>
-            { images && images.map((img, index) => (
-                <img 
-                    className={styles.image} 
-                    key={index} 
-                    src={URL.createObjectURL(img)} 
-                    alt="image_preview" 
-                    onClick={() => removeImage(index)}
-                />
-            ))}
+            { images.length > 0 && (
+                images.map((image, index) => (
+                    <img 
+                        className={styles.image} 
+                        key={index} 
+                        src={URL.createObjectURL(image)} 
+                        alt="image_preview" 
+                        onClick={() => removeImage(index)}
+                    />
+                ))
+            )}
         </div>
     )
 }

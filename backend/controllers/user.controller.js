@@ -12,15 +12,15 @@ export async function register(req, res, next) {
     const isPassword = validatePassword(password);
 
     if (!isUsername) {
-        return res.status(400).json({ error: "Invalid username" });
+        return res.status(400).json({ error: "Invalid username/phone/password too short" });
     }
 
     if (!isPhone) {
-        return res.status(400).json({ error: "Invalid phone number"});
+        return res.status(400).json({ error: "Invalid username/phone/password too short"});
     }
 
     if (!isPassword) {
-        return res.status(400).json({ error: "Invalid password"});
+        return res.status(400).json({ error: "Invalid username/phone/password too short"});
     }
 
     const user = await userModel.findUser({phone});
@@ -122,8 +122,8 @@ export async function upload(req, res, next) {
         const result = await userModel.uploadImage(product);
 
         res.status(201).json({ product: {
-            _id: result.insertedId,
-            ...product
+            ...product,
+            _id: result.insertedId
         }, message: "Upload image succeeded"});
     } catch (error) {
         next(error);

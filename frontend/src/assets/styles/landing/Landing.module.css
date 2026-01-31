@@ -24,3 +24,9 @@
     align-items: center;
     gap: 10px;
 }
+
+@media (max-width: 430px) {
+    .heading {
+        font-size: 2rem;
+    }
+}

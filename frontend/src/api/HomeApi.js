@@ -6,5 +6,5 @@ export async function fetchAllImages() {
         return null;
     }
     const data = await res.json();
-    return data.images;
+    return data;
 }

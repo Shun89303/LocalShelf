@@ -17,7 +17,7 @@ function Products() {
                 setError("No images found");
                 return;
             }
-            setGallery(data);
+            setGallery(data.images);
         }
         getImages();
     }, [setError, setGallery])
@@ -25,8 +25,6 @@ function Products() {
     const breakpoints = {
         default: 4,
         1100: 3,
-        700: 2,
-        500: 1
     }
 
     return (
@@ -35,16 +33,30 @@ function Products() {
             className={styles.masonryGrid}
             columnClassName={styles.masonryColumn}
         >
-            { gallery && gallery.map((item, i) => (
-                <div key={i} className={imageStyle.card}>
-                    <img src={`/${item.images}`} alt="image-preview" className={imageStyle.image}/>
-                    <div className={imageStyle.overlay}>
-                        <div className={imageStyle.descCont}>
-                            <h3 className={imageStyle.name}>Name: {item.name}</h3>
-                            <p className={imageStyle.price}>Price: ${item.price}</p>
-                            <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(item.phone) }</p>
-                        </div>
-                    </div>
+            { gallery.map((post) => (
+                <div key={post._id.toString()} className={imageStyle.card}>
+                    { post.images.length > 0 ? (
+                        post.images.map((img, index) => (
+                            <>
+                                <img key={index} src={`/${img}`} alt="image-preview" className={imageStyle.image}/>
+                                <div className={imageStyle.overlay}>
+                                    <div className={imageStyle.descCont}>
+                                        <h3 className={imageStyle.name}>Name: {post.name}</h3>
+                                        <p className={imageStyle.price}>Price: ${post.price}</p>
+                                        <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(post.phone) }</p>
+                                    </div>
+                                </div>
+                            </>
+                        ))
+                    ) : (
+                        <>
+                            <div className={imageStyle.descCont}>
+                                <h3 className={imageStyle.name}>Name: {post.name}</h3>
+                                <p className={imageStyle.price}>Price: ${post.price}</p>
+                                <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(post.phone) }</p>
+                            </div>
+                        </>
+                    )}
                 </div>
             ))}
         </Masonry>
