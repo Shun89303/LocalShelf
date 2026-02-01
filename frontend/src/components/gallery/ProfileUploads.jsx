@@ -4,6 +4,7 @@ import Masonry from "react-masonry-css";
 import styles from '../../assets/styles/masonry/Masonry.module.css';
 import imageStyle from '../../assets/styles/image/Image.module.css';
 import formatMyanmarLocal from '../../utils/formatMyanmarLocal.js';
+import DeleteBtn from "../buttons/profile/DeleteBtn.jsx";
 
 function ProfileUploads() {
     const { uploads, setUploads } = useProfile();
@@ -28,7 +29,7 @@ function ProfileUploads() {
         }
         fetchImages();
         
-    }, [uploads, setUploads])
+    }, [])
 
     const breakpoints = {
         default: 4,
@@ -47,7 +48,7 @@ function ProfileUploads() {
                         product.images.map((img, index) => (
                         <>
                             <img key={index} src={`/${img}`} alt="loading image/no image uploaded" className={imageStyle.image}/>
-                            <button className={imageStyle.btn}>x</button>
+                            <DeleteBtn id={ product._id } path={ img }/>
                             <div className={imageStyle.overlay}>
                                 <div className={imageStyle.descCont}>
                                     <h3 className={imageStyle.name}>Name: {product.name}</h3>
@@ -59,7 +60,7 @@ function ProfileUploads() {
                         )   
                     ) ) : (
                         <>
-                            <button className={imageStyle.btn}>x</button>
+                            <DeleteBtn id={ product._id }/>
                             <div className={imageStyle.plainCont}>
                                 <h3 className={imageStyle.name}>Name: {product.name}</h3>
                                 <p className={imageStyle.price}>Price: ${product.price}</p>

@@ -4,6 +4,7 @@ import authMiddleware from '../middlewares/auth.js';
 import { upload } from '../controllers/user.controller.js';
 import { getProfileImages } from '../controllers/user.controller.js';
 import { getAllImages } from '../controllers/user.controller.js';
+import { deleteImage } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
@@ -12,5 +13,7 @@ router.post( '/', authMiddleware, multerUpload.array('image', 1), upload);
 router.get('/me', authMiddleware, getProfileImages);
 
 router.get('/all', getAllImages);
+
+router.delete('/:id', authMiddleware, deleteImage);
 
 export default router;

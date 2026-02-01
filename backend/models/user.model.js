@@ -26,15 +26,3 @@ export async function findUser({phone}) {
 export async function getUserInfo(userId) {
     return await getDB().collection('users').findOne({ _id: new ObjectId(userId) });
 }
-
-export async function uploadImage({ owner, name, price, phone, images }) {
-    return await getDB().collection('images').insertOne({ owner, name, price, phone, images });
-}
-
-export async function getUserImages({owner}) {
-    return await getDB().collection('images').find({owner}).toArray();
-}
-
-export async function getImages() {
-    return await getDB().collection('images').find().toArray();
-}

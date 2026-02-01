@@ -1,4 +1,7 @@
-import { userModel } from "../models/index.js";
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { userModel, imageModel } from "../models/index.js";
 import { validateUsername, validateMyanmarPhone, validatePassword } from '../utils/validators.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -119,7 +122,7 @@ export async function upload(req, res, next) {
             images: imagePaths
         }
 
-        const result = await userModel.uploadImage(product);
+        const result = await imageModel.uploadImage(product);
 
         res.status(201).json({ product: {
             ...product,
@@ -132,7 +135,7 @@ export async function upload(req, res, next) {
 
 export async function getProfileImages(req, res, next) {
     try {
-        const images = await userModel.getUserImages({ owner: req.user.id });
+        const images = await imageModel.getUserImages({ owner: req.user.id });
         if (!images || images.length === 0) {
             return res.status(404).json({ error: "No Images Found"});
         }
@@ -144,12 +147,35 @@ export async function getProfileImages(req, res, next) {
 
 export async function getAllImages(req, res, next) {
     try {
-        const images = await userModel.getImages();
+        const images = await imageModel.getImages();
         if (!images || images.length === 0) {
             return res.status(500).json({ error: "No images found" });
         }
         return res.status(200).json({ images, message: "Successful image fetch" });
     } catch (error) {
         next(error)
+    }
+}
+
+export async function deleteImage(req, res, next) {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
+    const postId = req.params.id;
+    const image = req.query.imgPath;
+
+    try {
+        const result = await imageModel.deleteImage(postId);
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "post not found" });
+        }
+        if (image) {
+            const imagePath = path.join(__dirname, '..', image);
+            await fs.unlink(imagePath);
+            console.log("image deleted in disk: ", imagePath);
+        }
+        return res.status(200).json({ message: "post deleted successfully" });
+    } catch (error) {
+        next(error);
     }
 }

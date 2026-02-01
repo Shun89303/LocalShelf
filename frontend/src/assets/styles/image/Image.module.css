@@ -85,4 +85,11 @@
         font-size: .6rem;
         padding: .5rem;
     }
+
+    .btn {
+        font-size: .5rem;
+        padding: .5rem;
+        top: .5rem;
+        right: .5rem;
+    }
 }

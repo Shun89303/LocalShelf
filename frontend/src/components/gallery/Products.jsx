@@ -20,7 +20,7 @@ function Products() {
             setGallery(data.images);
         }
         getImages();
-    }, [setError, setGallery])
+    }, [])
 
     const breakpoints = {
         default: 4,
@@ -50,7 +50,7 @@ function Products() {
                         ))
                     ) : (
                         <>
-                            <div className={imageStyle.descCont}>
+                            <div className={imageStyle.plainCont}>
                                 <h3 className={imageStyle.name}>Name: {post.name}</h3>
                                 <p className={imageStyle.price}>Price: ${post.price}</p>
                                 <p className={imageStyle.phone}>Phone: { formatMyanmarLocal(post.phone) }</p>
