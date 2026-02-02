@@ -52,3 +52,25 @@ export function HandleUpload() {
 
     return UploadProduct;
 }
+
+export async function deleteProduct({id, path}) {
+    let fetchURL = `/api/products/${id}`;
+
+    if (path) {
+        fetchURL = `/api/products/${id}?imgPath=${encodeURIComponent(path)}`;
+    }
+        const res = await fetch(fetchURL, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+
+        const result = await res.json(); 
+
+        if (!res.ok) {
+            throw new Error(result.error);
+        }
+
+        return result;
+}

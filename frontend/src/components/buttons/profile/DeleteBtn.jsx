@@ -1,35 +1,25 @@
 import style from '../../../assets/styles/image/Image.module.css';
 import useProfile from '../../../contexts/profile/useProfile.js';
+import { deleteProduct } from '../../../api/ProfileApi.js';
 
 function DeleteBtn(props) {
 
     const { setUploads } = useProfile();
 
     const handleDelete = async () => {
-        let fetchURL = `/api/products/${props.id}`;
-
-        if (props.path) {
-            fetchURL = `/api/products/${props.id}?imgPath=${encodeURIComponent(props.path)}`;
-        }
-            const res = await fetch(fetchURL, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-
-            if (!res.ok) {
-                const result = await res.json();
-                console.error(result.error);
-                window.alert(result.error);
+            try {
+                const result = await deleteProduct({
+                    id: props.id,
+                    path: props.path
+                });
+                console.log(result.message);
+                window.alert(result.message);
+                setUploads(prev => prev.filter(upload => upload._id !== props.id));
+            } catch (error) {
+                console.error(error);
+                window.alert(error.message);
                 return;
             }
-
-            const result = await res.json(); 
-            console.log(result.message);
-            window.alert(result.message);
-
-            setUploads(prev => prev.filter(upload => upload._id !== props.id));
     }
 
     return (
@@ -37,7 +27,7 @@ function DeleteBtn(props) {
             className={style.btn}
             onClick={handleDelete}
         >
-            X
+            ✖
         </button>
     )
 }

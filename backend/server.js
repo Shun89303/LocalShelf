@@ -7,13 +7,18 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
-await connectDB();
-initModels(client.db('localShelf'));
+try {
+    await connectDB();
+    initModels(client.db('localShelf'));
+} catch (error) {
+    console.error("Server startup aborted", error);
+    process.exit(1);
+}
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_ORIGIN,
     credentials: true
 }))
 app.use(express.json());
